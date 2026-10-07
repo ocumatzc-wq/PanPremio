@@ -2,22 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/dao/ClienteDAO.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/dao/PedidoDAO.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/dao/ProductoDAO.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/modelo/Cliente.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/modelo/DetallePedido.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/modelo/ItemVenta.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/modelo/MenuCompleto.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/modelo/Pedido.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/modelo/ProductoIndividual.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/excepciones/StockInsuficienteException.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/excepciones/PuntosInsuficientesException.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/modelo/Pago.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/modelo/Recompensa.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/modelo/Canje.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/ProyectoOracle/src/proyectooracle/ProyectoOracle.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
