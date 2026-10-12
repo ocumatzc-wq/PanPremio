@@ -13,7 +13,12 @@ public class ProductoDAO {
 
     public boolean agregarProducto(Producto p) {
         String sql = "INSERT INTO Productos (categoria, nombre, precio, existencia) VALUES (?, ?, ?, ?)";
-        try (Connection cn = Conexion.getConexion();
+        Connection cn = Conexion.getConexion();
+        if (cn == null) {
+            System.err.println("No se pudo obtener conexión a Oracle.");
+            return false;
+        }
+        try (cn;
              PreparedStatement ps = cn.prepareStatement(sql)) {
 
             ps.setString(1, p.getCategoria());
@@ -31,7 +36,12 @@ public class ProductoDAO {
     public List<Producto> obtenerProductos() {
         List<Producto> lista = new ArrayList<>();
         String sql = "SELECT id_producto, categoria, nombre, precio, existencia FROM Productos";
-        try (Connection cn = Conexion.getConexion();
+        Connection cn = Conexion.getConexion();
+        if (cn == null) {
+            System.err.println("No se pudo obtener conexión a Oracle.");
+            return lista;
+        }
+        try (cn;
              PreparedStatement ps = cn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
