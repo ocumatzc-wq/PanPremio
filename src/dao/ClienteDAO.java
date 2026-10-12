@@ -71,6 +71,26 @@ public class ClienteDAO {
         return null;
     }
 
+    public Cliente obtenerClientePorCodigo(String codigo) {
+        String sql = "SELECT id_cliente, codigo, nombre, apellidos, email, telefono, saldo_puntos, activo FROM Clientes WHERE codigo = ?";
+        Connection cn = Conexion.getConexion();
+        if (cn == null) {
+            System.err.println("No se pudo obtener conexión a Oracle.");
+            return null;
+        }
+        try (cn; PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setString(1, codigo);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapear(rs);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al consultar cliente por código: " + e.getMessage());
+        }
+        return null;
+    }
+
     public boolean actualizarCliente(Cliente cliente) {
         String sql = "UPDATE Clientes SET codigo = ?, nombre = ?, apellidos = ?, email = ?, telefono = ?, saldo_puntos = ?, activo = ? WHERE id_cliente = ?";
         Connection cn = Conexion.getConexion();

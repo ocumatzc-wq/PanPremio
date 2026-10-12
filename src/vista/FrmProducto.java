@@ -17,12 +17,15 @@ public class FrmProducto extends javax.swing.JFrame {
      */
     public FrmProducto() {
         initComponents();
+        cmbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(
+                new String[]{"Sandwich", "Bebida", "Acompanamiento"}));
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
         cargarTablaProductos();      // Carga los productos desde Oracle
     }
-public void cargarTablaProductos() {
+
+    public void cargarTablaProductos() {
         javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(
-            new Object[]{"ID", "Categoría", "Nombre", "Precio", "Stock"}, 0
+            new Object[]{"ID", "Código", "Categoría", "Nombre", "Precio", "Stock", "Activo"}, 0
         ) {
             @Override
             public boolean isCellEditable(int fila, int columna) {
@@ -37,10 +40,12 @@ public void cargarTablaProductos() {
             for (modelo.Producto p : lista) {
                 Object[] fila = {
                     p.getIdProducto(),
+                    p.getCodigo(),
                     p.getCategoria(),
                     p.getNombre(),
                     p.getPrecio(),
-                    p.getExistencia()
+                    p.getExistencia(),
+                    p.isActivo() ? "Sí" : "No"
                 };
                 modeloTabla.addRow(fila);
             }
@@ -51,14 +56,15 @@ public void cargarTablaProductos() {
             javax.swing.JOptionPane.showMessageDialog(this, "Error al cargar productos: " + e.getMessage());
         }
     }
-    
-private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
-        String categoria = txtCategoria.getText().trim();
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
+        String codigo = txtCodigo.getText().trim();
+        String categoria = (String) cmbCategoria.getSelectedItem();
         String nombre = txtNombre.getText().trim();
         String precioStr = txtPrecio.getText().trim();
         String existenciaStr = txtExistencia.getText().trim();
 
-        if (categoria.isEmpty() || nombre.isEmpty() || precioStr.isEmpty() || existenciaStr.isEmpty()) {
+        if (nombre.isEmpty() || precioStr.isEmpty() || existenciaStr.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.");
             return;
         }
@@ -68,6 +74,9 @@ private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
             int existencia = Integer.parseInt(existenciaStr);
 
             modelo.Producto nuevoProd = new modelo.Producto(categoria, nombre, precio, existencia);
+            if (!codigo.isEmpty()) {
+                nuevoProd.setCodigo(codigo);
+            }
             dao.ProductoDAO dao = new dao.ProductoDAO();
 
             if (dao.agregarProducto(nuevoProd)) {
@@ -82,6 +91,35 @@ private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
         }
     }
 
+    private void btnAbastecerActionPerformed(java.awt.event.ActionEvent evt) {
+        int fila = tblProductos.getSelectedRow();
+        if (fila == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un producto de la tabla.");
+            return;
+        }
+
+        int idProducto = Integer.parseInt(tblProductos.getValueAt(fila, 0).toString());
+        String cantStr = javax.swing.JOptionPane.showInputDialog(this, "Cantidad a abastecer:");
+        if (cantStr == null || cantStr.trim().isEmpty()) {
+            return;
+        }
+
+        try {
+            int cantidad = Integer.parseInt(cantStr.trim());
+            String referencia = javax.swing.JOptionPane.showInputDialog(this, "Referencia (opcional):");
+            dao.ProductoDAO dao = new dao.ProductoDAO();
+
+            if (dao.abastecerProducto(idProducto, cantidad, referencia)) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Inventario abastecido correctamente.");
+                cargarTablaProductos();
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "No se pudo abastecer. Verifique la cantidad.");
+            }
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ingrese una cantidad válida.");
+        }
+    }
+
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {
         limpiarCampos();
     }
@@ -91,12 +129,14 @@ private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
     }
 
     private void limpiarCampos() {
-        txtCategoria.setText("");
+        txtCodigo.setText("");
+        cmbCategoria.setSelectedIndex(0);
         txtNombre.setText("");
         txtPrecio.setText("");
         txtExistencia.setText("");
-        txtCategoria.requestFocusInWindow();
+        txtCodigo.requestFocusInWindow();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,49 +146,37 @@ private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtCategoria = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtCodigo = new javax.swing.JTextField();
+        cmbCategoria = new javax.swing.JComboBox<>();
         txtNombre = new javax.swing.JTextField();
         txtPrecio = new javax.swing.JTextField();
         txtExistencia = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
+        btnAbastecer = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         btnRefrescar = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblProductos = new javax.swing.JTable();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Categoria:");
+        jLabel1.setText("Código:");
 
-        jLabel2.setText("Nombre:");
+        jLabel2.setText("Categoria:");
 
-        jLabel3.setText("Precio:");
+        jLabel3.setText("Nombre:");
 
-        jLabel4.setText("Existencia:");
+        jLabel4.setText("Precio:");
 
-        txtCategoria.addActionListener(this::txtCategoriaActionPerformed);
+        jLabel5.setText("Existencia:");
 
-        txtNombre.setText("con");
+        txtCodigo.addActionListener(this::txtCodigoActionPerformed);
+
         txtNombre.addActionListener(this::txtNombreActionPerformed);
 
         txtPrecio.addActionListener(this::txtPrecioActionPerformed);
@@ -156,6 +184,10 @@ private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
         txtExistencia.addActionListener(this::txtExistenciaActionPerformed);
 
         btnGuardar.setText("Guardar Producto");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
+
+        btnAbastecer.setText("Abastecer");
+        btnAbastecer.addActionListener(this::btnAbastecerActionPerformed);
 
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
@@ -165,10 +197,7 @@ private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
 
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
@@ -176,81 +205,81 @@ private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
         ));
         jScrollPane2.setViewportView(tblProductos);
 
-        jScrollPane3.setViewportView(jScrollPane2);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtCategoria)
-                                .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtExistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnGuardar)
-                                .addGap(29, 29, 29)
-                                .addComponent(btnLimpiar)
-                                .addGap(27, 27, 27)
-                                .addComponent(btnRefrescar)))))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(265, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(cmbCategoria, 0, 150, Short.MAX_VALUE)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(txtExistencia, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnGuardar)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnAbastecer)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnLimpiar)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnRefrescar)))
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtExistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(37, 37, 37)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGuardar)
-                            .addComponent(btnLimpiar)
-                            .addComponent(btnRefrescar)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(cmbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtExistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnAbastecer)
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnRefrescar))
+                .addContainerGap(30, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoriaActionPerformed
-        txtNombre.requestFocusInWindow();
-    }//GEN-LAST:event_txtCategoriaActionPerformed
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        cmbCategoria.requestFocusInWindow();
+    }//GEN-LAST:event_txtCodigoActionPerformed
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         txtPrecio.requestFocusInWindow();
@@ -290,19 +319,19 @@ private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAbastecer;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRefrescar;
+    private javax.swing.JComboBox<String> cmbCategoria;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable tblProductos;
-    private javax.swing.JTextField txtCategoria;
+    private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtExistencia;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
