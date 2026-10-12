@@ -2,10 +2,12 @@ package modelo;
 
 public class Producto {
     private int idProducto;
+    private String codigo;
     private String categoria;
     private String nombre;
     private double precio;
     private int existencia;
+    private boolean activo = true;
 
     public Producto() {
     }
@@ -31,6 +33,14 @@ public class Producto {
 
     public void setIdProducto(int idProducto) {
         this.idProducto = idProducto;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getCategoria() {
@@ -63,5 +73,13 @@ public class Producto {
 
     public void setExistencia(int existencia) {
         this.existencia = existencia;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 }

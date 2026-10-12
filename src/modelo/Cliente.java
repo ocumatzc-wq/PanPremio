@@ -2,13 +2,14 @@ package modelo;
 
 public class Cliente {
     private int idCliente;
+    private String codigo;
     private String nombre;
     private String apellido;
     private String email;
     private String telefono;
     private int saldoPuntos;
+    private boolean activo = true;
 
-    // Constructores
     public Cliente() {
     }
 
@@ -21,7 +22,6 @@ public class Cliente {
         this.saldoPuntos = saldoPuntos;
     }
 
-    // Constructor para registrar (sin ID ni puntos iniciales)
     public Cliente(String nombre, String apellido, String email, String telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
@@ -30,13 +30,20 @@ public class Cliente {
         this.saldoPuntos = 0;
     }
 
-    // Getters y Setters
     public int getIdCliente() {
         return idCliente;
     }
 
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getNombre() {
@@ -77,5 +84,13 @@ public class Cliente {
 
     public void setSaldoPuntos(int saldoPuntos) {
         this.saldoPuntos = saldoPuntos;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 }

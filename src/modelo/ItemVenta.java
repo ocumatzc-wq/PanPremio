@@ -13,4 +13,5 @@ public abstract class ItemVenta {
     public abstract double getPrecio();
     public abstract String getNombre();
     public abstract String getDetalles();
+    public abstract int calcularPuntos();
 }

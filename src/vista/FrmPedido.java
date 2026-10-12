@@ -1,24 +1,104 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package vista;
 
-/**
- *
- * @author Usuario
- */
-public class FrmPedido extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmPedido.class.getName());
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
-    /**
-     * Creates new form FrmPedido
-     */
+public final class FrmPedido extends javax.swing.JFrame {
+
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmPedido.class.getName());
+    private DefaultTableModel modeloTablaCarrito;
+    private double totalPagar = 0.0;
+
     public FrmPedido() {
         initComponents();
+        setLocationRelativeTo(null); // Centrar ventana
+        inicializarTablaCarrito();
+    }
+    
+   // Configurar las columnas de la tabla del carrito
+    private void inicializarTablaCarrito() {
+        modeloTablaCarrito = new DefaultTableModel(
+            new Object[]{"ID Prod", "Nombre", "Cantidad", "Precio", "Subtotal"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int fila, int columna) {
+                return false; // Evitar edición manual directa en celdas
+            }
+        };
+        tblDetallePedido.setModel(modeloTablaCarrito);
     }
 
+    // Botón para agregar productos al carrito temporal
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {
+        String idProdStr = txtIdProducto.getText().trim();
+        String cantidadStr = txtCantidad.getText().trim();
+
+        if (idProdStr.isEmpty() || cantidadStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del producto y la cantidad.");
+            return;
+        }
+
+        try {
+            int idProducto = Integer.parseInt(idProdStr);
+            int cantidad = Integer.parseInt(cantidadStr);
+
+            if (cantidad <= 0) {
+                JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor a 0.");
+                return;
+            }
+
+            // Consultar el producto en Oracle para verificar existencia y obtener precio/nombre
+            dao.ProductoDAO prodDao = new dao.ProductoDAO();
+            List<modelo.Producto> lista = prodDao.obtenerProductos();
+            modelo.Producto productoEncontrado = null;
+
+            for (modelo.Producto p : lista) {
+                if (p.getIdProducto() == idProducto) {
+                    productoEncontrado = p;
+                    break;
+                }
+            }
+
+            if (productoEncontrado == null) {
+                JOptionPane.showMessageDialog(this, "El producto con ID " + idProducto + " no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Validar stock disponible
+            if (productoEncontrado.getExistencia() < cantidad) {
+                JOptionPane.showMessageDialog(this, "Stock insuficiente. Stock actual: " + productoEncontrado.getExistencia(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            double precio = productoEncontrado.getPrecio();
+            double subtotal = precio * cantidad;
+
+            // Agregar a la tabla del carrito
+            Object[] fila = {
+                productoEncontrado.getIdProducto(),
+                productoEncontrado.getNombre(),
+                cantidad,
+                precio,
+                subtotal
+            };
+            modeloTablaCarrito.addRow(fila);
+
+            // Actualizar total general
+            totalPagar += subtotal;
+            actualizarTotalEtiqueta();
+
+            // Limpiar campos de producto para el siguiente
+            txtIdProducto.setText("");
+            txtCantidad.setText("");
+            txtIdProducto.requestFocusInWindow();
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID y la cantidad deben ser valores numéricos enteros.");
+        }
+    } 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,31 +108,272 @@ public class FrmPedido extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtIdCliente = new javax.swing.JTextField();
+        txtIdProducto = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
+        txtCantidad = new javax.swing.JTextField();
+        btnAgregar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnGuardarPedido = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblDetallePedido = new javax.swing.JTable();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("ID Clientes");
+
+        jLabel2.setText("ID Productos");
+
+        jLabel3.setText("Cantidad");
+
+        lblTotal.setText("Total a Pagar: Q 0.00");
+
+        btnAgregar.setText("Añadir al Carrito");
+        btnAgregar.addActionListener(this::btnAgregarActionPerformed);
+
+        btnEliminar.setText("Quitar Producto");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
+
+        btnGuardarPedido.setText("Completar Venta");
+        btnGuardarPedido.addActionListener(this::btnGuardarPedidoActionPerformed);
+
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
+
+        tblDetallePedido.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tblDetallePedido);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAgregar)
+                            .addComponent(btnGuardarPedido))
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtIdProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                            .addComponent(txtIdCliente)
+                            .addComponent(txtCantidad)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(lblTotal)))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 70, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addComponent(lblTotal)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAgregar)
+                            .addComponent(btnEliminar))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnGuardarPedido)
+                            .addComponent(btnLimpiar)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+       int filaSeleccionada = tblDetallePedido.getSelectedRow();
+        if (filaSeleccionada >= 0) {
+            // Restar del total general el subtotal de la fila eliminada
+            double subtotalFila = (double) modeloTablaCarrito.getValueAt(filaSeleccionada, 4);
+            totalPagar -= subtotalFila;
+            actualizarTotalEtiqueta();
+
+            modeloTablaCarrito.removeRow(filaSeleccionada);
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione de la tabla el producto que desea quitar del carrito.");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnGuardarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarPedidoActionPerformed
+        String idClienteStr = txtIdCliente.getText().trim();
+
+        if (idClienteStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar el ID del cliente.");
+            return;
+        }
+
+        if (modeloTablaCarrito.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "El carrito de compras está vacío.");
+            return;
+        }
+
+        int idCliente;
+        try {
+            idCliente = Integer.parseInt(idClienteStr);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID del cliente debe ser un número entero.");
+            return;
+        }
+
+        dao.ClienteDAO clienteDao = new dao.ClienteDAO();
+        modelo.Cliente cliente = clienteDao.obtenerClientePorId(idCliente);
+        if (cliente == null) {
+            JOptionPane.showMessageDialog(this, "El cliente con ID " + idCliente + " no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        dao.ProductoDAO prodDao = new dao.ProductoDAO();
+        List<modelo.DetallePedido> detalles = construirDetalles(prodDao.obtenerProductos());
+
+        int puntosTotales = 0;
+        for (modelo.DetallePedido d : detalles) {
+            puntosTotales += d.getPuntos();
+        }
+
+        Object[] opcionesPago = {"EFECTIVO", "TARJETA"};
+        String tipoPago = (String) JOptionPane.showInputDialog(this, "Método de pago:", "Cobro",
+                JOptionPane.QUESTION_MESSAGE, null, opcionesPago, opcionesPago[0]);
+        if (tipoPago == null) {
+            return;
+        }
+
+        modelo.Pago pago = new modelo.Pago(0, tipoPago, totalPagar);
+        if ("EFECTIVO".equals(tipoPago)) {
+            String recibidoStr = JOptionPane.showInputDialog(this,
+                    "Efectivo recibido (Total: Q " + String.format("%.2f", totalPagar) + "):");
+            if (recibidoStr == null) {
+                return;
+            }
+            double recibido;
+            try {
+                recibido = Double.parseDouble(recibidoStr.trim());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "El monto recibido debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (recibido < totalPagar) {
+                JOptionPane.showMessageDialog(this, "El efectivo recibido es insuficiente.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            pago.setRecibido(recibido);
+            pago.setCambio(recibido - totalPagar);
+        } else {
+            String referencia = JOptionPane.showInputDialog(this, "Referencia / autorización de la tarjeta:");
+            if (referencia == null) {
+                return;
+            }
+            pago.setRecibido(totalPagar);
+            pago.setCambio(0.0);
+            pago.setReferencia(referencia.trim());
+        }
+
+        dao.PedidoDAO pedidoDao = new dao.PedidoDAO();
+        int idPedido = pedidoDao.crearPedido(idCliente, detalles, totalPagar, puntosTotales);
+        if (idPedido <= 0) {
+            JOptionPane.showMessageDialog(this, "No se pudo registrar el pedido en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        pago.setIdPedido(idPedido);
+        if (pedidoDao.cobrarPedido(idPedido, pago)) {
+            JOptionPane.showMessageDialog(this, "Venta completada.\nPedido #" + idPedido
+                    + "\nTotal: Q " + String.format("%.2f", totalPagar)
+                    + "\nPuntos acreditados: " + puntosTotales);
+            limpiarTodo();
+        } else {
+            JOptionPane.showMessageDialog(this, "El pedido #" + idPedido
+                    + " quedó PENDIENTE: no se pudo cobrar (verifique stock o pago).", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarPedidoActionPerformed
+
+    private List<modelo.DetallePedido> construirDetalles(List<modelo.Producto> productos) {
+        List<modelo.DetallePedido> detalles = new java.util.ArrayList<>();
+        for (int i = 0; i < modeloTablaCarrito.getRowCount(); i++) {
+            int idProducto = (int) modeloTablaCarrito.getValueAt(i, 0);
+            int cantidad = (int) modeloTablaCarrito.getValueAt(i, 2);
+            double precio = (double) modeloTablaCarrito.getValueAt(i, 3);
+            modelo.DetallePedido d = new modelo.DetallePedido(idProducto, cantidad, precio);
+            for (modelo.Producto p : productos) {
+                if (p.getIdProducto() == idProducto) {
+                    modelo.ProductoIndividual pi = new modelo.ProductoIndividual(
+                            p.getIdProducto(), p.getCategoria(), p.getNombre(), p.getPrecio(), p.getExistencia());
+                    d.setPuntos(pi.calcularPuntos() * cantidad);
+                    break;
+                }
+            }
+            detalles.add(d);
+        }
+        return detalles;
+    }
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarTodo();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+private void limpiarTodo() {
+        txtIdCliente.setText("");
+        txtIdProducto.setText("");
+        txtCantidad.setText("");
+        modeloTablaCarrito.setRowCount(0);
+        totalPagar = 0.0;
+        actualizarTotalEtiqueta();
+        txtIdCliente.requestFocusInWindow();
+    }
+
+    private void actualizarTotalEtiqueta() {
+        lblTotal.setText("Total a Pagar: Q " + String.format("%.2f", totalPagar));
+    }
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -63,12 +384,24 @@ public class FrmPedido extends javax.swing.JFrame {
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FrmPedido().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardarPedido;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JTable tblDetallePedido;
+    private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtIdCliente;
+    private javax.swing.JTextField txtIdProducto;
     // End of variables declaration//GEN-END:variables
 }

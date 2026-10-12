@@ -4,8 +4,11 @@ public class DetallePedido {
     private int idDetalle;
     private int idPedido;
     private int idProducto;
+    private int idMenu;
     private int cantidad;
-    private double precioUnitario; // Para cálculo de total/puntos
+    private double precioUnitario;
+    private double subtotal;
+    private int puntos;
 
     public DetallePedido() {
     }
@@ -14,6 +17,7 @@ public class DetallePedido {
         this.idProducto = idProducto;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
+        this.subtotal = cantidad * precioUnitario;
     }
 
     public int getIdDetalle() {
@@ -40,6 +44,14 @@ public class DetallePedido {
         this.idProducto = idProducto;
     }
 
+    public int getIdMenu() {
+        return idMenu;
+    }
+
+    public void setIdMenu(int idMenu) {
+        this.idMenu = idMenu;
+    }
+
     public int getCantidad() {
         return cantidad;
     }
@@ -54,5 +66,21 @@ public class DetallePedido {
 
     public void setPrecioUnitario(double precioUnitario) {
         this.precioUnitario = precioUnitario;
+    }
+
+    public double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
     }
 }

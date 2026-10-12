@@ -148,6 +148,7 @@ private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
 
         txtCategoria.addActionListener(this::txtCategoriaActionPerformed);
 
+        txtNombre.setText("con");
         txtNombre.addActionListener(this::txtNombreActionPerformed);
 
         txtPrecio.addActionListener(this::txtPrecioActionPerformed);
@@ -155,7 +156,6 @@ private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
         txtExistencia.addActionListener(this::txtExistenciaActionPerformed);
 
         btnGuardar.setText("Guardar Producto");
-        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);

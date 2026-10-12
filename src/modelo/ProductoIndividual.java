@@ -5,6 +5,8 @@ public class ProductoIndividual extends ItemVenta {
     private String categoria;
     private int existencia;
 
+    private static final int PUNTOS_SANDWICH = 2;
+
     public ProductoIndividual(int idProducto, String categoria, String nombre, double precio, int existencia) {
         super(nombre, precio);
         this.idProducto = idProducto;
@@ -31,6 +33,11 @@ public class ProductoIndividual extends ItemVenta {
     @Override
     public String getDetalles() {
         return "Producto: " + nombre + " | Categoría: " + categoria + " | Precio: Q" + precio;
+    }
+
+    @Override
+    public int calcularPuntos() {
+        return "Sandwich".equalsIgnoreCase(categoria) ? PUNTOS_SANDWICH : 0;
     }
 
     public int getIdProducto() { return idProducto; }

@@ -27,11 +27,15 @@ public class ProyectoOracle {
 
         System.out.println("=== DEMOSTRACIÓN DE POLIMORFISMO Y COMPOSICIÓN ===");
         double total = 0;
+        int puntos = 0;
         for (ItemVenta item : carrito) {
             System.out.println(item.getDetalles());
             total += item.getPrecio();
+            System.out.println("   Puntos por unidad: " + item.calcularPuntos());
+            puntos += item.calcularPuntos();
         }
 
         System.out.println("Total a Pagar en Carrito: Q" + total);
+        System.out.println("Puntos del carrito: " + puntos);
     }
 }

@@ -7,6 +7,8 @@ public class Pedido {
     private int idCliente;
     private Date fechaPedido;
     private String estado;
+    private double total;
+    private int puntosGenerados;
 
     public Pedido() {
     }
@@ -53,5 +55,21 @@ public class Pedido {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public int getPuntosGenerados() {
+        return puntosGenerados;
+    }
+
+    public void setPuntosGenerados(int puntosGenerados) {
+        this.puntosGenerados = puntosGenerados;
     }
 }
