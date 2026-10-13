@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class Conexion {
 
     // Apunta al contenedor principal :xe con el usuario correcto
-    private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
+    private static final String URL = "jdbc:oracle:thin:@100.116.255.36:1521:xe";
     private static final String USUARIO = "USUARIO_OSCAR";
     private static final String CLAVE = "654321$";
 
