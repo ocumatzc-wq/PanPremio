@@ -4,6 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/biri_kun/Documents/GitHub/PanPremio/src/proyectooracle/Conexion.java</file>
+            <file>file:/Users/biri_kun/Documents/GitHub/PanPremio/src/vista/FrmCliente.java</file>
+            <file>file:/Users/biri_kun/Documents/GitHub/PanPremio/src/vista/FrmFidelizacion.java</file>
+            <file>file:/Users/biri_kun/Documents/GitHub/PanPremio/src/vista/FrmPedido.java</file>
+            <file>file:/Users/biri_kun/Documents/GitHub/PanPremio/src/vista/FrmPrincipal.java</file>
+            <file>file:/Users/biri_kun/Documents/GitHub/PanPremio/src/vista/FrmProducto.java</file>
+            <file>file:/Users/biri_kun/Documents/GitHub/PanPremio/src/vista/FrmReportes.java</file>
         </group>
     </open-files>
 </project-private>
