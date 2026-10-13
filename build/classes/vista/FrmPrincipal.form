@@ -24,38 +24,46 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabelTitulo" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnClientes" min="-2" pref="220" max="-2" attributes="0"/>
-                  <Component id="btnProductos" min="-2" pref="220" max="-2" attributes="0"/>
-                  <Component id="btnPedidos" min="-2" pref="220" max="-2" attributes="0"/>
-                  <Component id="btnFidelizacion" min="-2" pref="220" max="-2" attributes="0"/>
-                  <Component id="btnReportes" min="-2" pref="220" max="-2" attributes="0"/>
-                  <Component id="btnSalir" min="-2" pref="220" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="213" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="btnReportes" min="-2" pref="296" max="-2" attributes="0"/>
+                  <Component id="btnFidelizacion" alignment="1" min="-2" pref="296" max="-2" attributes="0"/>
+                  <Component id="btnClientes" alignment="1" min="-2" pref="296" max="-2" attributes="0"/>
+                  <Component id="btnProductos" alignment="1" min="-2" pref="296" max="-2" attributes="0"/>
+                  <Component id="btnPedidos" alignment="1" min="-2" pref="296" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+              <EmptySpace pref="167" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <Component id="btnSalir" min="-2" pref="222" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="197" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jLabelTitulo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="253" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-              <Component id="jLabelTitulo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-              <Component id="btnClientes" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-              <Component id="btnProductos" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-              <Component id="btnPedidos" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-              <Component id="btnFidelizacion" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-              <Component id="btnReportes" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-              <Component id="btnSalir" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+              <Component id="jLabelTitulo" min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+              <Component id="btnClientes" min="-2" pref="52" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+              <Component id="btnProductos" min="-2" pref="52" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+              <Component id="btnPedidos" min="-2" pref="52" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+              <Component id="btnFidelizacion" min="-2" pref="57" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnReportes" min="-2" pref="51" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnSalir" min="-2" pref="45" max="-2" attributes="0"/>
+              <EmptySpace pref="30" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -68,7 +76,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnClientes">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Gestión de Clientes"/>
+        <Property name="text" type="java.lang.String" value="Gesti&#xf3;n de Clientes"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClientesActionPerformed"/>
@@ -76,7 +84,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnProductos">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Gestión de Productos"/>
+        <Property name="text" type="java.lang.String" value="Gesti&#xf3;n de Productos"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProductosActionPerformed"/>
@@ -92,7 +100,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnFidelizacion">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Fidelización y Canjes"/>
+        <Property name="text" type="java.lang.String" value="Fidelizaci&#xf3;n y Canjes"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFidelizacionActionPerformed"/>
