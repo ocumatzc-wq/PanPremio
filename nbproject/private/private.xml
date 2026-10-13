@@ -3,13 +3,6 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/alumno/Documents/GitHub/PanPremio/src/dao/ReporteDAO.java</file>
-            <file>file:/C:/Users/alumno/Documents/GitHub/PanPremio/src/modelo/DetallePedido.java</file>
-            <file>file:/C:/Users/alumno/Documents/GitHub/PanPremio/src/dao/CanjeDAO.java</file>
-            <file>file:/C:/Users/alumno/Documents/GitHub/PanPremio/src/dao/MovimientoInventarioDAO.java</file>
-            <file>file:/C:/Users/alumno/Documents/GitHub/PanPremio/src/dao/RecompensaDAO.java</file>
-=======
             <file>file:/Users/biri_kun/Documents/GitHub/PanPremio/src/proyectooracle/Conexion.java</file>
             <file>file:/Users/biri_kun/Documents/GitHub/PanPremio/src/vista/FrmCliente.java</file>
             <file>file:/Users/biri_kun/Documents/GitHub/PanPremio/src/vista/FrmFidelizacion.java</file>
@@ -18,7 +11,6 @@
             <file>file:/Users/biri_kun/Documents/GitHub/PanPremio/src/vista/FrmProducto.java</file>
             <file>file:/Users/biri_kun/Documents/GitHub/PanPremio/src/vista/FrmReportes.java</file>
             <file>file:/Users/biri_kun/Documents/GitHub/PanPremio/src/proyectooracle/ProyectoOracle.java</file>
->>>>>>> b343dd53c418fb8c92f29529562160c3865071eb
         </group>
     </open-files>
 </project-private>
