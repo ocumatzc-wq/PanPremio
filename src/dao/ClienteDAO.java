@@ -12,7 +12,6 @@ import java.util.List;
 public class ClienteDAO {
     /**
      * Registra un nuevo cliente en la base de datos.
-     *
      * @param cliente Objeto que contiene la información del cliente.
      * @return true si se insertó el registro; false si ocurrió un error
      *         o no se insertó ninguna fila.

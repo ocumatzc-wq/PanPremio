@@ -1,22 +1,23 @@
 package modelo;
 
 import java.sql.Date;
-
+// Clase Canje que representa el registro de intercambio de puntos de fidelidad por recompensas
 public class Canje {
-    private int idCanje;
-    private int idCliente;
-    private int idRecompensa;
-    private int puntosUtilizados;
-    private Date fechaCanje;
-
+    // Atributos de la clase que almacenan la información del canje
+    private int idCanje; // Identificador único del canje (Clave primaria)
+    private int idCliente; // Identificador del cliente que realiza el canje
+    private int idRecompensa; // Identificador de la recompensa que se está canjeando
+    private int puntosUtilizados; // Cantidad de puntos gastados en el canje
+    private Date fechaCanje; // Fecha en la que se efectuó el canje
+    // Constructor por defecto (vacío) para instanciar la clase sin valores iniciales
     public Canje() {}
-
+    // Constructor parametrizado para inicializar un nuevo canje con los datos esenciales
     public Canje(int idCliente, int idRecompensa, int puntosUtilizados) {
         this.idCliente = idCliente;
         this.idRecompensa = idRecompensa;
         this.puntosUtilizados = puntosUtilizados;
     }
-
+    // Métodos Getters y Setters para acceder y modificar los atributos de la clase
     public int getIdCanje() { return idCanje; }
     public void setIdCanje(int idCanje) { this.idCanje = idCanje; }
     public int getIdCliente() { return idCliente; }
