@@ -7,6 +7,11 @@
             <file>file:/C:/Users/Usuario/Documents/GitHub/PanPremio/PanPremio/src/vista/FrmPedido.java</file>
             <file>file:/C:/Users/Usuario/Documents/GitHub/PanPremio/PanPremio/src/proyectooracle/Conexion.java</file>
             <file>file:/C:/Users/Usuario/Documents/GitHub/PanPremio/PanPremio/src/proyectooracle/ApiPuntos.java</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PanPremio/PanPremio/src/modelo/Canje.java</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PanPremio/PanPremio/src/modelo/Cliente.java</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PanPremio/PanPremio/src/modelo/DetallePedido.java</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PanPremio/PanPremio/src/dao/CanjeDAO.java</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PanPremio/PanPremio/src/dao/MenuDAO.java</file>
         </group>
     </open-files>
 </project-private>

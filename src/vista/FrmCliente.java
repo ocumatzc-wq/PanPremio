@@ -27,7 +27,6 @@ public final class FrmCliente extends javax.swing.JFrame {
         cargarTablaClientes();
     }
 
-    // Consultar los clientes en Oracle y mostrarlos en la tabla.
     public void cargarTablaClientes() {
         DefaultTableModel modeloTabla = new DefaultTableModel(
                 new Object[]{
@@ -71,7 +70,6 @@ public final class FrmCliente extends javax.swing.JFrame {
         }
     }
 
-    // Guardar un cliente en Oracle.
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
         String codigo = txtCodigo.getText().trim();
         String nombre = txtNombre.getText().trim();
@@ -119,7 +117,6 @@ public final class FrmCliente extends javax.swing.JFrame {
         }
     }
 
-    // Buscar un cliente por su código.
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {
         String codigo = txtCodigo.getText().trim();
         if (codigo.isEmpty()) {
@@ -135,7 +132,6 @@ public final class FrmCliente extends javax.swing.JFrame {
         mostrarCliente(c);
     }
 
-    // Actualizar los datos del cliente cargado.
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {
         if (idClienteActual == -1) {
             JOptionPane.showMessageDialog(this, "Busque o seleccione un cliente de la tabla.");
@@ -170,7 +166,6 @@ public final class FrmCliente extends javax.swing.JFrame {
         }
     }
 
-    // Activar o desactivar el cliente cargado.
     private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {
         if (idClienteActual == -1) {
             JOptionPane.showMessageDialog(this, "Busque o seleccione un cliente de la tabla.");
@@ -189,12 +184,10 @@ public final class FrmCliente extends javax.swing.JFrame {
         }
     }
 
-    // Limpiar los campos del formulario.
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {
         limpiarCampos();
     }
 
-    // Volver a consultar los clientes.
     private void btnRegresacarActionPerformed(java.awt.event.ActionEvent evt) {
         cargarTablaClientes();
     }
