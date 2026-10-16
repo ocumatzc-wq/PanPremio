@@ -14,6 +14,7 @@ public class Conexion {
         Connection cn = null;
         try {
             Class.forName("oracle.jdbc.OracleDriver");
+            DriverManager.setLoginTimeout(5);
             cn = DriverManager.getConnection(URL, USUARIO, CLAVE);
             System.out.println("¡Conexión a Oracle realizada con éxito!");
         } catch (ClassNotFoundException e) {
