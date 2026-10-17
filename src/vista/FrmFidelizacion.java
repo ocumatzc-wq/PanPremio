@@ -56,7 +56,8 @@ public final class FrmFidelizacion extends javax.swing.JFrame {
 
         idClienteActual = cliente.getIdCliente();
         lblCliente.setText("Cliente: " + cliente.getNombre() + " " + cliente.getApellido()
-                + " | Puntos: " + cliente.getSaldoPuntos());
+                + " | Puntos: " + cliente.getSaldoPuntos()
+                + " | Estado: " + (cliente.isActivo() ? "ACTIVO" : "INACTIVO"));
         cargarMovimientos(idCliente);
     }
 
@@ -74,6 +75,14 @@ public final class FrmFidelizacion extends javax.swing.JFrame {
 
         modelo.Recompensa recompensa = recompensasActuales.get(fila);
         modelo.Cliente cliente = new dao.ClienteDAO().obtenerClientePorId(idClienteActual);
+
+        if (!cliente.isActivo()) {
+            JOptionPane.showMessageDialog(this,
+                    "El cliente está DESACTIVADO.\n"
+                    + "Actívelo en Gestión de Clientes para poder canjear.",
+                    "Cliente inactivo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         if (cliente.getSaldoPuntos() < recompensa.getPuntosRequeridos()) {
             JOptionPane.showMessageDialog(this,

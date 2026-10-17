@@ -311,6 +311,13 @@ public final class FrmPedido extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "El cliente con ID " + idCliente + " no existe.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if (!cliente.isActivo()) {
+            JOptionPane.showMessageDialog(this,
+                    "El cliente con ID " + idCliente + " está DESACTIVADO.\n"
+                    + "Actívelo en Gestión de Clientes para poder registrar pedidos.",
+                    "Cliente inactivo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         List<modelo.DetallePedido> detalles = construirDetalles();
 
